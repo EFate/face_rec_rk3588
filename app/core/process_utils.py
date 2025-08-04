@@ -7,7 +7,7 @@ from logging import Logger
 
 def get_all_degirum_worker_pids() -> Set[int]:
     """
-    获取当前系统上所有正在运行的DeGirum工作进程的PID集合。
+    【优化】获取当前系统上所有正在运行的DeGirum工作进程的PID集合。
     此函数通过扫描所有进程的命令行来识别目标进程，确保全面清理。
     """
     worker_pids = set()
@@ -24,7 +24,7 @@ def get_all_degirum_worker_pids() -> Set[int]:
 
 def cleanup_degirum_workers_by_pids(pids_to_kill: Set[int], logger: Logger):
     """
-    根据提供的PID集合，强制终止DeGirum工作进程。
+    【优化】根据提供的PID集合，强制终止DeGirum工作进程。
     使用 SIGKILL 信号确保进程被立即终止，以释放硬件资源。
     """
     if not pids_to_kill:
@@ -36,6 +36,7 @@ def cleanup_degirum_workers_by_pids(pids_to_kill: Set[int], logger: Logger):
     for pid in pids_to_kill:
         try:
             # 使用SIGKILL信号强制、立即终止进程
+            # 在Linux/macOS上，这是最可靠的强制退出方式
             os.kill(pid, signal.SIGKILL)
             logger.info(f"【进程清理】已向PID {pid} 发送SIGKILL信号。")
             killed_count += 1

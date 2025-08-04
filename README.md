@@ -1,6 +1,3 @@
-### 转换模型为onnx
-yolo export model=smoke_fire.pt format=onnx imgsz=640 opset=12 simplify=True
-
 ### 启动服务
 
   * **首次启动或需要重新构建镜像时：**

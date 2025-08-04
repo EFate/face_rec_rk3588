@@ -1,9 +1,9 @@
-# docker-compose.yml (已修正)
+# docker-compose.yml
 # 定义服务
 services:
   # 服务的名称
-  smoke-fire-hailo-service:
-    image: registry.cn-hangzhou.aliyuncs.com/canstack/smoke-fire-service-hailo:1.0.0
+  face-rec-hailo-service:
+    image: registry.cn-hangzhou.aliyuncs.com/canstack/face-rec-service-hailo:1.0.0
     # 构建指令
     build:
       # 'context'：构建上下文的路径。'.' 表示当前目录（即项目根目录）。
@@ -12,12 +12,15 @@ services:
       dockerfile: Dockerfile
 
     # 容器名称
-    container_name: smoke_fire_hailo_service
+    container_name: face_recognition_hailo_service
 
+    # 端口映射: "主机端口:容器端口"
     ports:
       - "${SERVER__PORT}:${SERVER__PORT}" # FastAPI
       - "${WEBUI__PORT}:${WEBUI__PORT}" # Streamlit
 
+    # 数据卷挂载: "主机路径:容器路径"
+    # 路径相对于 docker-compose.yml 所在位置（项目根目录）
     volumes:
       - /dev:/dev
       - /lib/firmware:/lib/firmware

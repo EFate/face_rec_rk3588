@@ -22,3 +22,4 @@ logs/
 
 # others
 test.txt
+*.db
