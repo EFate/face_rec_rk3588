@@ -1,7 +1,7 @@
 # Dockerfile
 
 # --- Stage 1: 基础镜像 ---
-FROM swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/python:3.10-slim
+FROM python:3.10-slim
 
 # --- Stage 2: 配置国内软件源 (清华源) ---
 RUN rm -f /etc/apt/sources.list && \
@@ -53,6 +53,6 @@ COPY . .
 RUN chmod +x start.sh
 
 # --- Stage 6: 配置容器运行 ---
-EXPOSE 12010
-EXPOSE 12011
+EXPOSE 12020
+EXPOSE 12021
 CMD ["./start.sh"]
