@@ -30,18 +30,18 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# --- Stage 4: 安装 Hailo 用户态运行时 ---
+# --- Stage 4: 安装 RK3588 RKNN 用户态运行时 ---
+# 该步骤用于克隆 RKNN 工具包并安装其 aarch64 架构的运行时库
 WORKDIR /app
-COPY hailort_4.21.0_amd64.deb .
-
-# [!!修正!!] 使用参考文件中的方法安装 .deb 包
-# 1. 创建 .dockerenv 提示安装脚本在容器环境中运行
-# 2. 使用 dpkg --unpack 先解压文件
-# 3. 使用 dpkg --configure -a || true 来运行配置脚本并忽略任何错误
-RUN touch /.dockerenv && \
-    dpkg --unpack ./hailort_4.21.0_amd64.deb && \
-    DEBIAN_FRONTEND=noninteractive dpkg --configure -a || true && \
-    rm hailort_4.21.0_amd64.deb && \
+RUN apt-get update && \
+    apt-get install -y git && \
+    git clone https://github.com/Pelochus/ezrknn-toolkit2 && \
+    cd ezrknn-toolkit2 && \
+    git checkout 99db9e5b950ccc7e0d1ee20a16b92f7d8b6e60e6 && \
+    cp ./rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so /usr/lib/ && \
+    cd .. && \
+    apt-get remove -y git && \
+    rm -rf ezrknn-toolkit2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
