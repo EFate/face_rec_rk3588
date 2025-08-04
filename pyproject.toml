@@ -1,0 +1,20 @@
+[project]
+name = "smokefire"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "loguru>=0.7.3",
+    "opencv-python>=4.11.0.86",
+    "pydantic-settings>=2.9.1",
+    "pyyaml>=6.0.2",
+    "streamlit>=1.46.1",
+    "typer>=0.16.0",
+]
+
+[tool.uv]
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+default = true

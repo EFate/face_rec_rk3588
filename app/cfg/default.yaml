@@ -1,0 +1,36 @@
+# app/cfg/default.yaml
+# 所有环境通用的默认配置。特定环境（如 production.yaml）可以覆盖这些值。
+
+# 应用基本信息
+app:
+  title: "烟火检测服务"
+  description: "基于FastAPI和YOLO ONNX的实时烟火检测服务。"
+  version: "1.0.0"
+  debug: false # 在生产环境中应始终为 false
+
+  # 视频流相关配置
+  stream_default_lifetime_minutes: 10      # 视频流默认生命周期（分钟），-1表示永不超时
+  stream_cleanup_interval_seconds: 60      # 后台清理任务每隔多少秒运行一次
+  stream_max_queue_size: 30                # 每个视频流内部帧缓冲区的最大尺寸。如果推理速度跟不上视频源帧率，此队列可防止内存无限增长。
+
+# Uvicorn 服务器配置
+server:
+  host: "0.0.0.0" # 监听所有网络接口，以便容器或局域网访问
+  port: 8000
+  reload: false   # 热重载仅建议在开发环境开启
+
+# 日志配置
+logging:
+  level: "INFO" # 可选值: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+  file_path: "./logs/app.log"
+  max_bytes: 10485760 # 单个日志文件最大大小 (10 MB)
+  backup_count: 5 # 保留的旧日志文件数量
+
+# YOLO 模型与推理配置
+yolo:
+  model_path: "./data/zoo/yolov8n_relu6_fire_smoke--640x640_quant_hailort_hailo8_1"
+  class_names: ["fire", "smoke"] # 类别名称，顺序必须与模型训练时一致
+
+
+  confidence_threshold: 0.5 # 只有当检测结果的置信度高于此值时，才被认为是有效的目标
+  iou_threshold: 0.4        # 非极大值抑制(NMS)的IoU阈值，用于合并重叠的检测框

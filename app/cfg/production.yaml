@@ -1,0 +1,14 @@
+# app/cfg/production.yaml
+# 生产环境配置。此处的设置会覆盖 default.yaml 中的同名设置。
+
+# 应用配置
+app:
+  debug: false # 必须关闭Debug模式，避免泄露敏感信息
+  stream_default_lifetime_minutes: 30
+
+# 服务器配置
+server:
+  host: "0.0.0.0"
+  port: 12020
+  reload: false
+

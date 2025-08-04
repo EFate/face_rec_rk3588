@@ -1,0 +1,14 @@
+# app/cfg/development.yaml
+# 开发环境配置。此处的设置会覆盖 default.yaml 中的同名设置。
+
+# 应用配置
+app:
+  debug: true # 开启Debug模式，FastAPI会提供更详细的错误页面
+
+# 服务器配置
+server:
+  reload: true # 开启热重载，当代码文件被修改时，服务器会自动重启，极大方便开发
+
+# 日志配置
+logging:
+  level: "DEBUG" # 将日志级别设为DEBUG，可以看到所有级别的日志，方便追踪问题
