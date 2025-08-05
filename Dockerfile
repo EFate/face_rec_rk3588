@@ -31,19 +31,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # --- Stage 4: 安装 RK3588 RKNN 用户态运行时 ---
-# 该步骤用于克隆 RKNN 工具包并安装其 aarch64 架构的运行时库
+# 该步骤用于将本地的 librknnrt.so 文件拷贝到镜像中
 WORKDIR /app
-RUN apt-get update && \
-    apt-get install -y git && \
-    git clone https://github.com/Pelochus/ezrknn-toolkit2 && \
-    cd ezrknn-toolkit2 && \
-    git checkout 99db9e5b950ccc7e0d1ee20a16b92f7d8b6e60e6 && \
-    cp ./rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so /usr/lib/ && \
-    cd .. && \
-    apt-get remove -y git && \
-    rm -rf ezrknn-toolkit2 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+COPY librknnrt.so /usr/lib/
 
 # --- Stage 5: 安装项目依赖并拷贝代码 ---
 COPY requirements.txt .

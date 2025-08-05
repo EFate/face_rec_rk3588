@@ -64,9 +64,9 @@ class DeGirumConfig(BaseModel):
     # 模型仓库（Zoo）的URL，这里使用本地文件系统
     zoo_url: str = Field(f"file://{MODEL_ZOO_DIR.absolute()}", description="DeGirum 模型仓库的URL。")
     # 人脸检测模型名称
-    detection_model_name: str = Field("scrfd_10g--640x640_quant_hailort_hailo8_1", description="人脸检测模型名。")
+    detection_model_name: str = Field("yolov8n_relu6_face--640x640_quant_rknn_rk3588_1", description="人脸检测模型名。")
     # 人脸识别（特征提取）模型名称
-    recognition_model_name: str = Field("arcface_mobilefacenet--112x112_quant_hailort_hailo8_1", description="人脸识别模型名。")
+    recognition_model_name: str = Field("mbf_w600k--112x112_float_rknn_rk3588_1", description="人脸识别模型名。")
     # 人脸识别余弦相似度阈值
     recognition_similarity_threshold: float = Field(0.5, description="人脸识别余弦相似度阈值。")
     # 人脸检测的最低置信度分数
@@ -76,7 +76,7 @@ class DeGirumConfig(BaseModel):
     # LanceDB 数据库文件的存储目录
     lancedb_uri: str = Field(str(LANCEDB_DATA_DIR), description="LanceDB 数据库文件的存储目录。")
     # 用于存储人脸特征的表名
-    lancedb_table_name: str = Field("faces_v4_degirum_pipeline", description="用于存储人脸特征的表名。")
+    lancedb_table_name: str = Field("faces_table", description="用于存储人脸特征的表名。")
 
 
 # --- 主配置类 ---

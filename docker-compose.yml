@@ -1,4 +1,4 @@
-# docker-compose.yml (已修正)
+# docker-compose.yml
 # 定义服务
 services:
   # 服务的名称
@@ -23,8 +23,7 @@ services:
       - /lib/firmware:/lib/firmware
       - /lib/udev/rules.d:/lib/udev/rules.d
       - /lib/modules:/lib/modules
-    devices:
-      - /dev/hailo0:/dev/hailo0
+    # 对于 RK3588 的 RKNN 运行时，不再需要 Hailo 专用的 /dev 设备映射
     privileged: true
     environment:
       - HOST__IP=${HOST__IP}

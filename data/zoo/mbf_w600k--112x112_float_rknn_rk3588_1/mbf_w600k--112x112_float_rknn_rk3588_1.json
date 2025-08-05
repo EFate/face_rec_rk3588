@@ -1,0 +1,54 @@
+{
+    "Checksum": "47d55cd74f0739249324963616ec52549da5078d3e000b63bbf0453760d52e1b",
+    "ConfigVersion": 6,
+    "DEVICE": [
+        {
+            "DeviceType": "RK3588",
+            "RuntimeAgent": "RKNN",
+            "SupportedDeviceTypes": "RKNN/RK3588"
+        }
+    ],
+    "MODEL_PARAMETERS": [
+        {
+            "ModelPath": "mbf_w600k--112x112_float_rknn_rk3588_1.rknn"
+        }
+    ],
+    "POST_PROCESS": [
+        {
+            "OutputPostprocessType": "None",
+            "PostProcessorInputs": [
+                1
+            ]
+        }
+    ],
+    "PRE_PROCESS": [
+        {
+            "ImageBackend": "auto",
+            "InputC": 3,
+            "InputColorSpace": "RGB",
+            "InputH": 112,
+            "InputImgMean": [
+                127.5,
+                127.5,
+                127.5
+            ],
+            "InputImgNormCoeff": 1,
+            "InputImgNormEn": true,
+            "InputImgSliceType": "None",
+            "InputImgStd": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "InputN": 1,
+            "InputPadMethod": "stretch",
+            "InputQuantEn": false,
+            "InputQuantOffset": 0,
+            "InputQuantScale": 1,
+            "InputResizeMethod": "bilinear",
+            "InputTensorLayout": "NHWC",
+            "InputType": "Image",
+            "InputW": 112
+        }
+    ]
+}
