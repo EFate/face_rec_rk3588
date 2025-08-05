@@ -1,0 +1,61 @@
+{
+    "Checksum": "59c2eefcc7a367dd3b990a4b266eb66966b19b3707cff94a2827788247467b6c",
+    "ConfigVersion": 6,
+    "DEVICE": [
+        {
+            "DeviceType": "RK3588",
+            "RuntimeAgent": "RKNN",
+            "SupportedDeviceTypes": "RKNN/RK3588"
+        }
+    ],
+    "MODEL_PARAMETERS": [
+        {
+            "ModelPath": "yolov8s_relu6_widerface_kpts--640x640_quant_rknn_rk3588_1.rknn"
+        }
+    ],
+    "POST_PROCESS": [
+        {
+            "Connections": {},
+            "LabelsPath": "labels_yolov8s_relu6_widerface_kpts.json",
+            "LandmarkLabels": [],
+            "MaxClassesPerDetection": 1,
+            "MaxDetections": 100,
+            "MaxDetectionsPerClass": 100,
+            "OutputClassIDAdjustment": 0,
+            "OutputConfThreshold": 0.3,
+            "OutputNMSThreshold": 0.6,
+            "OutputNumClasses": 1,
+            "OutputNumLandmarks": 5,
+            "OutputPostprocessType": "PoseDetectionYoloV8",
+            "PostProcessorInputs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "UseRegularNMS": true
+        }
+    ],
+    "PRE_PROCESS": [
+        {
+            "ImageBackend": "auto",
+            "InputC": 3,
+            "InputH": 640,
+            "InputImgNormCoeff": 1,
+            "InputImgNormEn": false,
+            "InputImgSliceType": "None",
+            "InputN": 1,
+            "InputPadMethod": "letterbox",
+            "InputQuantEn": true,
+            "InputQuantOffset": 0,
+            "InputQuantScale": 1,
+            "InputResizeMethod": "bilinear",
+            "InputTensorLayout": "NHWC",
+            "InputType": "Image",
+            "InputW": 640
+        }
+    ]
+}

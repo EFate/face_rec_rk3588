@@ -64,7 +64,7 @@ class DeGirumConfig(BaseModel):
     # 模型仓库（Zoo）的URL，这里使用本地文件系统
     zoo_url: str = Field(f"file://{MODEL_ZOO_DIR.absolute()}", description="DeGirum 模型仓库的URL。")
     # 人脸检测模型名称
-    detection_model_name: str = Field("yolov8n_relu6_face--640x640_quant_rknn_rk3588_1", description="人脸检测模型名。")
+    detection_model_name: str = Field("yolov8s_relu6_widerface_kpts--640x640_quant_rknn_rk3588_1", description="人脸检测模型名。")
     # 人脸识别（特征提取）模型名称
     recognition_model_name: str = Field("mbf_w600k--112x112_float_rknn_rk3588_1", description="人脸识别模型名。")
     # 人脸识别余弦相似度阈值

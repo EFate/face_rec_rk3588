@@ -83,7 +83,7 @@ class FaceStreamPipeline:
         # 等待所有线程结束
         for t in self.threads:
             # 超时设置得更短
-            t.join(timeout=5.0)
+            t.join(timeout=1.0)
             if t.is_alive():
                 app_logger.error(f"【流水线 {self.stream_id}】线程 {t.name} 未能快速停止，可能被I/O阻塞。")
 
