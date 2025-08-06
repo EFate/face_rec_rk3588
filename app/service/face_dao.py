@@ -65,7 +65,7 @@ class LanceDBFaceDataDAO(FaceDataDAO):
             app_logger.error(f"初始化 LanceDB 表失败: {e}", exc_info=True)
             raise HTTPException(status_code=500, detail=f"数据库表初始化失败: {e}")
 
-    # create, get_all, get_features_by_sn 方法保持不变...
+
     def create(self, name: str, sn: str, features: np.ndarray, image_path: Path) -> Dict[str, Any]:
         try:
             new_record = LanceFaceSchema(uuid=str(uuid.uuid4()), vector=features, name=name, sn=sn,
