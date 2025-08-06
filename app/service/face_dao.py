@@ -93,9 +93,9 @@ class LanceDBFaceDataDAO(FaceDataDAO):
             raise HTTPException(status_code=500, detail=f"数据库查询失败: {e}")
 
     def delete_by_sn(self, sn: str) -> int:
-        """【修复】使用正确的方式统计待删除的记录数。"""
+        """使用正确的方式统计待删除的记录数。"""
         try:
-            # 修复：先用 search + where 查询，再用 len() 统计数量
+            # 先用 search + where 查询，再用 len() 统计数量
             records_to_delete = self.table.search().where(f"sn = '{sn}'").to_df()
             count_to_delete = len(records_to_delete)
 
@@ -110,7 +110,7 @@ class LanceDBFaceDataDAO(FaceDataDAO):
             raise HTTPException(status_code=500, detail=f"数据库删除失败: {e}")
 
     def update_by_sn(self, sn: str, update_data: Dict[str, Any]) -> int:
-        """【修复】使用正确的方式统计待更新的记录数，并保留原生 update 的安全性。"""
+        """使用正确的方式统计待更新的记录数，并保留原生 update 的安全性。"""
         app_logger.info(f"正在为 SN='{sn}' 更新记录，更新内容: {update_data}")
         
         values_to_update = {}
@@ -122,7 +122,7 @@ class LanceDBFaceDataDAO(FaceDataDAO):
             return 0
         
         try:
-            # 修复：使用正确的方法来统计将要被更新的记录数
+            # 使用正确的方法来统计将要被更新的记录数
             count_to_update = len(self.table.search().where(f"sn = '{sn}'").to_df())
             if count_to_update == 0:
                 app_logger.warning(f"尝试更新一个不存在的 SN: '{sn}'，操作已取消。")

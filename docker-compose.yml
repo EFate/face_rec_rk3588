@@ -2,8 +2,8 @@
 # 定义服务
 services:
   # 服务的名称
-  smoke-fire-rk3588-service:
-    # image: registry.cn-hangzhou.aliyuncs.com/canstack/smoke-fire-service-hailo:1.0.0
+  face-rec-rk3588-service:
+    image: registry.cn-hangzhou.aliyuncs.com/canstack/face-rec-service-rk3588:1.0.0
     # 构建指令
     build:
       # 'context'：构建上下文的路径。'.' 表示当前目录（即项目根目录）。
@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile
 
     # 容器名称
-    container_name: smoke_fire_rk3588_service
+    container_name: face_rec_rk3588_service
 
     ports:
       - "${SERVER__PORT}:${SERVER__PORT}" # FastAPI

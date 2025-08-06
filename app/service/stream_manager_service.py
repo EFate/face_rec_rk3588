@@ -12,7 +12,7 @@ from app.cfg.config import AppSettings
 from app.cfg.logging import app_logger
 from app.core.pipeline import FaceStreamPipeline
 from app.schema.face_schema import ActiveStreamInfo, StreamStartRequest
-# ❗【修改】导入 ModelPool
+# 导入 ModelPool
 from app.core.model_manager import ModelPool
 
 class StreamManagerService:
@@ -22,7 +22,7 @@ class StreamManagerService:
     def __init__(self, settings: AppSettings, model_pool: ModelPool):
         app_logger.info("正在初始化 StreamManagerService (使用线程+模型池)...")
         self.settings = settings
-        # ❗【修改】持有对模型池的引用
+        # 持有对模型池的引用
         self.model_pool = model_pool
         self.active_streams: Dict[str, Dict[str, Any]] = {}
         self.stream_lock = asyncio.Lock()
@@ -37,7 +37,7 @@ class StreamManagerService:
             # 1. 创建线程安全的队列
             frame_queue = queue.Queue(maxsize=30)
             
-            # 2. ❗【修改】实例化流水线，注入模型池
+            # 2. 实例化流水线，注入模型池
             pipeline = FaceStreamPipeline(
                 settings=self.settings,
                 stream_id=stream_id,
@@ -86,10 +86,8 @@ class StreamManagerService:
         
         return True
 
-    # get_stream_feed, get_all_active_streams_info, cleanup_expired_streams, stop_all_streams 
-    # 这些方法的逻辑与纯线程方案一致，无需重大修改
     async def get_stream_feed(self, stream_id: str):
-        # ... 此方法代码保持不变 ...
+        
         try:
             async with self.stream_lock:
                 if stream_id not in self.active_streams:
@@ -106,7 +104,7 @@ class StreamManagerService:
                 except queue.Empty: await asyncio.sleep(0.01)
         except asyncio.CancelledError: pass
     async def get_all_active_streams_info(self) -> List[ActiveStreamInfo]:
-        # ... 此方法代码保持不变 ...
+        
         async with self.stream_lock:
             active_infos = []
             dead_stream_ids = [sid for sid, s_ctx in self.active_streams.items() if not s_ctx["thread"].is_alive()]
@@ -115,7 +113,7 @@ class StreamManagerService:
             for sid in dead_stream_ids: self.active_streams.pop(sid, None)
             return active_infos
     async def cleanup_expired_streams(self):
-        # ... 此方法代码保持不变 ...
+        
         while True:
             await asyncio.sleep(self.settings.app.stream_cleanup_interval_seconds)
             now = datetime.now()
@@ -123,6 +121,6 @@ class StreamManagerService:
                 expired_ids = [sid for sid, s_ctx in self.active_streams.items() if s_ctx["info"].expires_at and now >= s_ctx["info"].expires_at]
             if expired_ids: await asyncio.gather(*[self.stop_stream(sid) for sid in expired_ids])
     async def stop_all_streams(self):
-        # ... 此方法代码保持不变 ...
+        
         async with self.stream_lock: all_ids = list(self.active_streams.keys())
         if all_ids: await asyncio.gather(*[self.stop_stream(sid) for sid in all_ids])

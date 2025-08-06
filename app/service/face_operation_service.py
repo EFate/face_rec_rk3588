@@ -9,20 +9,20 @@ from app.cfg.config import AppSettings
 from app.service.face_dao import FaceDataDAO, LanceDBFaceDataDAO
 from app.schema.face_schema import FaceInfo, FaceRecognitionResult, UpdateFaceRequest
 from app.cfg.logging import app_logger
-# ❗【修改】导入 ModelPool
+# 导入 ModelPool
 from app.core.model_manager import ModelPool
 from app.core.image_utils import align_and_crop, decode_image, save_face_image
 
 class FaceOperationService:
     """
-    【核心修改】通过向模型池借用/归还模型来处理人脸静态业务。
+    通过向模型池借用/归还模型来处理人脸静态业务。
     """
     def __init__(self, settings: AppSettings, model_pool: ModelPool):
         app_logger.info("正在初始化 FaceOperationService (使用模型池)...")
         self.settings = settings
-        # ❗【修改】持有对模型池的引用
+        # 持有对模型池的引用
         self.model_pool = model_pool
-        # ... 其他初始化保持不变 ...
+
         self.face_dao: FaceDataDAO = LanceDBFaceDataDAO(
             db_uri=self.settings.degirum.lancedb_uri,
             table_name=self.settings.degirum.lancedb_table_name,
@@ -33,13 +33,13 @@ class FaceOperationService:
     async def register_face(self, name: str, sn: str, image_bytes: bytes) -> FaceInfo:
         models = None
         try:
-            # ❗【修改】从池中获取一套模型
+            # 从池中获取一套模型
             models = self.model_pool.acquire()
             if models is None:
                 raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "服务正忙，请稍后再试。")
             
             detection_model, recognition_model = models
-            # ... 后续的检测、识别逻辑完全不变 ...
+
             img = decode_image(image_bytes)
             detection_result = detection_model.predict(img)
             faces = detection_result.results
@@ -58,14 +58,14 @@ class FaceOperationService:
             new_record = self.face_dao.create(name, sn, np.array(embedding), saved_path)
             return FaceInfo.model_validate(new_record)
         finally:
-            # ❗【修改】确保无论成功或失败，都将模型归还到池中
+            # 确保无论成功或失败，都将模型归还到池中
             if models:
                 self.model_pool.release(models)
 
     async def recognize_face(self, image_bytes: bytes) -> List[FaceRecognitionResult]:
         models = None
         try:
-            # ❗【修改】从池中获取一套模型
+            # 从池中获取一套模型
             models = self.model_pool.acquire()
             if models is None:
                 raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "服务正忙，请稍后再试。")
@@ -101,7 +101,7 @@ class FaceOperationService:
                     ))
             return final_results
         finally:
-            # ❗【修改】确保模型被归还
+            # 确保模型被归还
             if models:
                 self.model_pool.release(models)
 
